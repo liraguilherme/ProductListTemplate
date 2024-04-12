@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 //COMO É UM VO APAGAMOS TODAS AS ANNOTATIONS
 
-
+//@JsonPropertyOrder({"id", "name", "price"}) - ordem que queremos que seja serializado
 public class ProductVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -12,8 +12,10 @@ public class ProductVO implements Serializable {
 	
 	private Long id;
 		
+	//@JsonProperty("product_name") - alteramos para o nome que queremos
 	private String name;
 	
+	//@JsonIgnore Oculta o campo
 	private String price;
 	
 	public ProductVO() {
