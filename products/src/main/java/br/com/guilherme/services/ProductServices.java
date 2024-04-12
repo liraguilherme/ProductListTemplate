@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.guilherme.data.vo.v1.ProductVO;
+import br.com.guilherme.data.vo.v2.ProductVOV2;
 import br.com.guilherme.exceptions.ResourceNotFoundException;
 import br.com.guilherme.mapper.DozerMapper;
+import br.com.guilherme.mapper.custom.ProductMapper;
 import br.com.guilherme.model.Product;
 import br.com.guilherme.repositories.ProductRepository;
 
@@ -20,6 +22,9 @@ public class ProductServices {
 	
 	@Autowired
 	ProductRepository repository;
+	
+	@Autowired
+	ProductMapper mapper;
 
 	public List<ProductVO> findAll() {
 		
@@ -52,6 +57,19 @@ public class ProductServices {
 		
 		//Salvamos o obbjeto no banco pegamos o resultado e passamos para VO
 		var vo = DozerMapper.parseObject(repository.save(entity), ProductVO.class);
+		
+		return vo;
+	 
+	}
+	
+	public ProductVOV2 createV2(ProductVOV2 product) { //Recebemos um vo (product)
+		logger.info("Creating one product with V2!");
+		
+		//Convertendo VO para entidade do tipo product
+		var entity = mapper.convertVoTOEntity(product);
+		
+		//Salvamos o obbjeto no banco pegamos o resultado e passamos para VO
+		var vo = mapper.convertEntityToVO(repository.save(entity));
 		
 		return vo;
 	 

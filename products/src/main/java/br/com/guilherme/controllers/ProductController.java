@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.guilherme.data.vo.v1.ProductVO;
+import br.com.guilherme.data.vo.v2.ProductVOV2;
 import br.com.guilherme.services.ProductServices;
 
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/product/v1")
 public class ProductController {
 	
 	@Autowired
@@ -42,12 +43,21 @@ public class ProductController {
   }
   
 
-  
+ 
   @PostMapping(
 		  consumes = MediaType.APPLICATION_JSON_VALUE,//Usamos o producer/consumes por conta do swagger
 		  produces = MediaType.APPLICATION_JSON_VALUE)
   public ProductVO create(@RequestBody ProductVO product ) {
       return service.create(product) ;
+ 
+  }
+  
+   
+  @PostMapping( /*Adicionando o desciption para o nosso V2*/
+		  value = "/v2", consumes = MediaType.APPLICATION_JSON_VALUE,//Usamos o producer/consumes por conta do swagger
+		  produces = MediaType.APPLICATION_JSON_VALUE)
+  public ProductVOV2 createV2(@RequestBody ProductVOV2 product ) {
+      return service.createV2(product) ;
  
   }
   
