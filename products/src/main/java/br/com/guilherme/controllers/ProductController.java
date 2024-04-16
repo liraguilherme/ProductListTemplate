@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 
 @RestController
 @RequestMapping("/product/v1")
@@ -60,7 +60,9 @@ public class ProductController {
   
   }
   
-  @GetMapping(value = "/{id}",
+ //FIND BY ID 
+@CrossOrigin(origins = "http://localhost:8080")        //ADICIONANDO CORS NO FIND BY ID
+@GetMapping(value = "/{id}",
 		produces = { MediaType.APPLICATION_JSON,
 				MediaType.APPLICATION_XML, 
 				  MediaType.APPLICATION_YML
@@ -81,6 +83,7 @@ public class ProductController {
 
  })
   
+  
   public ProductVO findById(@PathVariable (value = "id") Long id) {
       return service.findById(id);
     		  
@@ -88,8 +91,10 @@ public class ProductController {
   }
   
 
- 
-  @PostMapping(
+ //POST / CREATE
+
+@CrossOrigin(origins = { "http://localhost:8080", "https://erudio.com.br"})   //ADICIONANDO CORS
+ @PostMapping(
 		  consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML }, //Usamos o producer/consumes por conta do swagger
 		  produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
   
