@@ -2,15 +2,24 @@ package br.com.guilherme.data.vo.v1;
 
 import java.io.Serializable;
 
+import org.springframework.hateoas.RepresentationModel;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+
 //COMO É UM VO APAGAMOS TODAS AS ANNOTATIONS
 
-//@JsonPropertyOrder({"id", "name", "price"}) - ordem que queremos que seja serializado
-public class ProductVO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@JsonPropertyOrder({"id", "name", "price"}) // ordem que queremos que seja serializado
+//Extendemos o representation model para suportar o Hateoas
+public class ProductVO extends RepresentationModel<ProductVO> implements Serializable {
 
 	
-	private Long id;
+	private static final long serialVersionUID = 1L;
+
+	@JsonProperty("id")
+	@Mapping("id")
+	private Long key; //Mudamos de id para key
 		
 	//@JsonProperty("product_name") - alteramos para o nome que queremos
 	private String name;
@@ -22,13 +31,15 @@ public class ProductVO implements Serializable {
 	
 	}
 
-	public Long getId() {
-		return id;
+	public Long getKey() {
+		return key;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long key) {
+		this.key = key;
 	}
+
+
 
 	public String getName() {
 		return name;
@@ -46,29 +57,33 @@ public class ProductVO implements Serializable {
 		this.price = price;
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		return result;
 	}
 
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		ProductVO other = (ProductVO) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (key == null) {
+			if (other.key != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!key.equals(other.key))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -82,6 +97,7 @@ public class ProductVO implements Serializable {
 			return false;
 		return true;
 	}
-
 	
+	
+
 }
